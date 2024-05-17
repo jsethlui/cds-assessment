@@ -3,7 +3,7 @@ import InputField from './InputField.tsx'
 function Government() {
     return (
         <>
-
+            <p className="absolute top-5 left-5 text-1xl font-semibold">Admin</p>
         </>
     )
 }

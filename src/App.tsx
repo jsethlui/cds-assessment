@@ -1,14 +1,17 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { useSearchParams } from "react-router-dom";
 import './App.css'
 
 import Nonprofit from './components/Nonprofit.tsx'
+import Admin from './components/Government.tsx'
 
 function App() {
+
+  const [searchParams, setSearchParams] = useSearchParams();
+  const isUser = searchParams.get("user_type") == "user" ? true : false
+
   return (
     <>
-      <Nonprofit />
+      {isUser ? <Nonprofit /> : <Admin />}
     </>
   )
 }
