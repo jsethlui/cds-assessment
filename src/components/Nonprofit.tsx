@@ -2,12 +2,7 @@ import { useState } from 'react'
 import { useSearchParams } from "react-router-dom";
 import InputField from './InputField.tsx'
 import Form from './Form.tsx'
-
-export enum Status{
-    Approved = "Approved",
-    Denied = "Denied",
-    Pending = "Pending"
-}
+import Status from './Status.tsx'
 
 function Nonprofit() {
 
@@ -21,12 +16,10 @@ function Nonprofit() {
         for (let i = 0; i < localStorage.length; i++) {
             const key = localStorage.key(i)!
             const item = JSON.parse(localStorage.getItem(key)!)
-
-            console.log(item)
-            console.log(item["status"])
-
-            const f = <Form name={item["name"]} id={item["formID"]} loanAmount={item["loanAmount"]} status={item["status"]} />
-            temp.push(f)
+            if (item["userID"] === userID) {
+                const f = <Form name={item["name"]} formID={item["formID"]} userID={userID || ""} loanAmount={item["loanAmount"]} status={item["status"]} />
+                temp.push(f)
+            }
          }
          return temp
     })
@@ -35,7 +28,7 @@ function Nonprofit() {
         const formID = forms.length + 1
         const status = Status.Pending
 
-        const newForm = <Form name={name} id={formID} loanAmount={loanAmount} status={status}/>
+        const newForm = <Form name={name} formID={formID} userID={userID || ""} loanAmount={loanAmount} status={status}/>
         addForm(forms => [...forms, newForm] );
         console.log(forms)
 
@@ -44,7 +37,7 @@ function Nonprofit() {
             userID: userID,
             formID: formID,
             loanAmount: loanAmount,
-            status: statusLookupTable[status]
+            status: status
         }
         localStorage.setItem(String(forms.length), JSON.stringify(obj))
     }

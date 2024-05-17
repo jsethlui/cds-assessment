@@ -1,26 +1,22 @@
 
-export enum Status{
-    Approved = "Approved",
-    Denied = "Denied",
-    Pending = "Pending"
-}
-
+import Status from './Status.tsx'
 
 interface FormProps {
     name: string,
-    id: number,
+    formID: number,
+    userID: string,
     loanAmount: number,
     status: Status
 }
 
-function Form({ name, id, loanAmount, status }: FormProps) {
+function Form({ name, formID, userID, loanAmount, status }: FormProps) {
 
     return (
         <div className="border-4 rounded-lg m-4 pl-4 pr-4 pt-6 pb-6">
             <div className="text-left">
                 <div className="flex">
                     <p className="font-semibold mr-1">Form ID: </p>
-                    <p>{id}</p>
+                    <p>{formID}</p>
                 </div>
 
                 <div className="flex">
