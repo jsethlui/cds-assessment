@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { useSearchParams } from "react-router-dom";
 import './App.css'
 
@@ -7,7 +8,7 @@ import Admin from './components/Government.tsx'
 function App() {
 
   const [searchParams, setSearchParams] = useSearchParams();
-  const isUser = searchParams.get("user_type") == "user" ? true : false
+  const isUser = searchParams.get("user_type") === "user" ? true : false
 
   return (
     <>

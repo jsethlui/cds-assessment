@@ -1,24 +1,19 @@
 
 export enum Status{
-    Approved,
-    Pending,
-    WaitingDecision
+    Approved = "Approved",
+    Denied = "Denied",
+    Pending = "Pending"
 }
+
 
 interface FormProps {
     name: string,
     id: number,
     loanAmount: number,
-    status?: Status
+    status: Status
 }
 
-function Form({ name, id, loanAmount, status = Status.Pending }: FormProps) {
-
-    // Map Status enum values to string representation
-    const statusLookupTable: { [index: string]: any; } = {};
-    statusLookupTable[Status.Approved] = "Approved"
-    statusLookupTable[Status.Pending] = "Pending"
-    statusLookupTable[Status.WaitingDecision] = "Waiting Decision"
+function Form({ name, id, loanAmount, status }: FormProps) {
 
     return (
         <div className="border-4 rounded-lg m-4 pl-4 pr-4 pt-6 pb-6">
@@ -40,7 +35,7 @@ function Form({ name, id, loanAmount, status = Status.Pending }: FormProps) {
 
                 <div className="flex">
                     <p className="font-semibold mr-1">Status: </p>
-                    <p>{statusLookupTable[status]}</p>
+                    <p>{status}</p>
                 </div>
             </div>
         </div>
