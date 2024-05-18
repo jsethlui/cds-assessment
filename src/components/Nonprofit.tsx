@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useId } from 'react'
 import { useSearchParams } from "react-router-dom";
 import InputField from './InputField.tsx'
 import Form from './Form.tsx'
@@ -25,7 +25,7 @@ function Nonprofit() {
     })
 
     const onFormSubmit = (name: string, loanAmount: number) => {
-        const formID = forms.length + 1
+        const formID = (Date.now() * Math.random()).toString();  // Generate random ID
         const status = Status.Pending
 
         const newForm = <Form name={name} formID={formID} userID={userID || ""} loanAmount={loanAmount} status={status}/>
