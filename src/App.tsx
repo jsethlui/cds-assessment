@@ -12,10 +12,6 @@ function App() {
 
   return (
     <>
-      <button className="absolute top-5 right-5"
-              onClick={() => localStorage.clear()}>
-        Clear Local Storage
-      </button>
       {isUser ? <Nonprofit /> : <Admin />}
     </>
   )

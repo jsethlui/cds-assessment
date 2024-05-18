@@ -36,7 +36,6 @@ function AdminStatus({ rawForm }: { rawForm: { [key:string]: any } }) {
 
     const onChange = (event: any) => {
         rawForm["status"] = event.label
-        console.log("rawForm (adminStatus): " + JSON.stringify(rawForm))
     }
 
     const render = () => {

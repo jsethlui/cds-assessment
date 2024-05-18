@@ -14,6 +14,9 @@ function Nonprofit() {
         const temp: JSX.Element[] = []
         for (let i = 0; i < localStorage.length; i++) {
             const key = localStorage.key(i)!
+            if (key == "loglevel") {
+                continue
+            }
             const item = JSON.parse(localStorage.getItem(key)!)
             if (item["userID"] === userID) {
                 const f = <Form name={item["name"]}
@@ -40,7 +43,6 @@ function Nonprofit() {
                               isUser={true} />
 
         addForm(forms => [...forms, newForm] );
-        console.log(forms)
 
         const obj = {
             name: name,

@@ -6,6 +6,9 @@ function Government() {
         const renderedForms: JSX.Element[] = []
         for (let i = 0; i < localStorage.length; i++) {
             const key = localStorage.key(i)!
+            if (key == "loglevel") {
+                continue
+            }
             const item = JSON.parse(localStorage.getItem(key)!)
 
             const f = <Form name={item["name"]}
