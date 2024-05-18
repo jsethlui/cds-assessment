@@ -1,4 +1,4 @@
-import { useState, useId } from 'react'
+import { useState } from 'react'
 import { useSearchParams } from "react-router-dom";
 import InputField from './InputField.tsx'
 import Form from './Form.tsx'
@@ -9,7 +9,6 @@ function Nonprofit() {
     const [searchParams, setSearchParams] = useSearchParams();
     const userID = searchParams.get("user_id")
 
-    // const [forms, addForm] = useState<Form[]>([])
     const [forms, addForm] = useState<Form[]>(() => {
         // Iterate through all local storage keys, and create Form components
         const temp: JSX.Element[] = []
@@ -17,7 +16,12 @@ function Nonprofit() {
             const key = localStorage.key(i)!
             const item = JSON.parse(localStorage.getItem(key)!)
             if (item["userID"] === userID) {
-                const f = <Form name={item["name"]} formID={item["formID"]} userID={userID || ""} loanAmount={item["loanAmount"]} status={item["status"]} />
+                const f = <Form name={item["name"]}
+                                formID={item["formID"]}
+                                userID={userID || ""}
+                                loanAmount={item["loanAmount"]}
+                                status={item["status"]}
+                                isUser={true} />
                 temp.push(f)
             }
          }

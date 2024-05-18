@@ -9,7 +9,12 @@ function Government() {
             const key = localStorage.key(i)!
             const item = JSON.parse(localStorage.getItem(key)!)
 
-            const f = <Form name={item["name"]} formID={item["formID"]} userID={item["userID"]} loanAmount={item["loanAmount"]} status={item["status"]} />
+            const f = <Form name={item["name"]}
+                            formID={item["formID"]}
+                            userID={item["userID"]}
+                            loanAmount={item["loanAmount"]}
+                            status={item["status"]}
+                            isUser={false} />
             renderedForms.push(f)
         }
         return renderedForms
