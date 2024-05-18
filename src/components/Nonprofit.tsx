@@ -32,7 +32,13 @@ function Nonprofit() {
         const formID = (Date.now() * Math.random()).toString();  // Generate random ID
         const status = Status.Pending
 
-        const newForm = <Form name={name} formID={formID} userID={userID || ""} loanAmount={loanAmount} status={status}/>
+        const newForm = <Form name={name}
+                              formID={formID}
+                              userID={userID || ""}
+                              loanAmount={loanAmount}
+                              status={status}
+                              isUser={true} />
+
         addForm(forms => [...forms, newForm] );
         console.log(forms)
 
@@ -43,7 +49,7 @@ function Nonprofit() {
             loanAmount: loanAmount,
             status: status
         }
-        localStorage.setItem(String(forms.length), JSON.stringify(obj))
+        localStorage.setItem(formID, JSON.stringify(obj))
     }
 
     let renderForms = forms.map((f, i) => {

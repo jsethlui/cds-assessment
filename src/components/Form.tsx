@@ -1,6 +1,7 @@
-
+import { useState } from 'react'
 import Status from './Status.tsx'
 import Select from 'react-select'
+import {UilSave} from '@iconscout/react-unicons'
 
 interface FormProps {
     name: string,
@@ -20,7 +21,7 @@ function UserStatus({ status }: { status: Status}) {
     )
 }
 
-function AdminStatus() {
+function AdminStatus({ rawForm }: { rawForm: { [key:string]: any } }) {
 
     const options = [
         { value: "Approved", label: Status.Approved },
@@ -28,41 +29,87 @@ function AdminStatus() {
         { value: "Pending", label: Status.Pending }
     ]
 
+    const setDefaultValue = () => {
+        const value = JSON.parse(localStorage.getItem(rawForm["formID"])!)
+        return { value: value["status"], label: value["status"] }
+    }
+
+    const onChange = (event: any) => {
+        rawForm["status"] = event.label
+        console.log("rawForm (adminStatus): " + JSON.stringify(rawForm))
+    }
+
+    const render = () => {
+        const item = JSON.parse(localStorage.getItem(rawForm["formID"])!)
+        if (item["status"] === "Pending") {
+            return <Select className=" ml-2 text-sm text-black max-w-full max-h-[10px]"
+                           defaultValue={setDefaultValue()}
+                           onChange={(event) => onChange(event)}
+                           options={options} />
+        }
+        return <p>{rawForm["status"]}</p>
+    }
+
     return (
         <div className="flex">
             <p className="font-semibold mr-1">Status: </p>
-            <Select className=" ml-2 text-sm text-black max-w-full max-h-[10px]"
-                    options={options} />
+                {render()}
         </div>
     )
 }
 
-function Form({ name, formID, userID, loanAmount, status, isUser = true }: FormProps) {
+function SaveButton({ rawForm }: { rawForm: { [key:string]: any } }) {
+
+    const onClick = () => {
+        localStorage.setItem(rawForm["formID"], JSON.stringify(rawForm))
+        alert("Status=" + rawForm["status"] + " saved")
+    }
 
     return (
-        <div className="border-4 rounded-lg m-4 pl-4 pr-4 pt-6 pb-6">
-            <div className="text-left">
-                {/* <div className="flex">
-                    <p className="font-semibold mr-1">Form ID: </p>
-                    <p>{formID}</p>
-                </div> */}
+        <button className="bg-transparent focus:outline-none p-2"
+                onClick={onClick}>
+            <div className="flex">
+                <UilSave className="mr-1" />
+                <p>Save</p>
+            </div>
+        </button>
+    )
+}
 
+function Form({ name, formID, userID, loanAmount, status, isUser }: FormProps) {
+
+    // Object representation of Form component
+    const [rawForm, setRawForm] = useState({ name: name,
+                                             formID: formID,
+                                             userID: userID,
+                                             loanAmount: loanAmount,
+                                             status: status,
+                                             isUser: false })
+
+    return (
+        <div className="relative border-4 rounded-lg m-4 pl-8 pr-8 pt-16 pb-16">
+            <div className="text-left">
                 <div className="flex">
                     <p className="font-semibold mr-1">User ID: </p>
-                    <p>{userID}</p>
+                    <p>{rawForm["userID"]}</p>
                 </div>
 
                 <div className="flex">
                     <p className="font-semibold mr-1">Name: </p>
-                    <p>{name}</p>
+                    <p>{rawForm["name"]}</p>
                 </div>
 
                 <div className="flex">
                     <p className="font-semibold mr-1">Loan Amount: </p>
-                    <p>${loanAmount}</p>
+                    <p>${rawForm["loanAmount"]}</p>
                 </div>
 
-                {isUser ? <UserStatus status={status} /> : <AdminStatus status={status} />}
+                { isUser ? <UserStatus status={rawForm["status"]} /> : <AdminStatus rawForm={rawForm} formID={rawForm["formID"]}/> }
+
+                <div className="absolute top-2 right-2">
+                    { !isUser && rawForm["status"] === "Pending" ? <SaveButton rawForm={rawForm} /> : null }
+                </div>
+
             </div>
         </div>
     )

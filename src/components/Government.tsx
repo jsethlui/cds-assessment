@@ -2,7 +2,6 @@ import Form from './Form.tsx'
 
 function Government() {
 
-    // @todo: make this state so that elements are changed on page refresh
     const forms = () => {
         const renderedForms: JSX.Element[] = []
         for (let i = 0; i < localStorage.length; i++) {
